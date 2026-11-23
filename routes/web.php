@@ -16,8 +16,7 @@ Route::get('/', function () {
     } else {
         return view('auth.login');
     }
-});
-Auth::routes(['register' => false]);
+})->name('login');
 
 Route::get('/register', function () {
     return view('auth.register');
@@ -55,8 +54,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/notification-information', 'HomeController@notificationInformation');
     Route::post('/update-notification-setting', 'HomeController@notificationsettingUpdate');
     Route::post('/projects', 'ListController@projectList');
+    Route::get('/projects', 'ListController@projectList');
     Route::get('member-to-assign/{projectId}', 'ListController@memberDetail');
     Route::post('/unassign-task', 'ListController@unassignTaskList');
+    Route::get('/unassign-task', 'ListController@unassignTaskList');
     Route::get('/inbox-task-count', 'ListController@inboxTasksCount');
     Route::post('/member-projects', 'ListController@parentProjects');
     Route::get('/members-list/{project_id}', 'ListController@membersList');

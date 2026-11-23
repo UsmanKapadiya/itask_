@@ -41,9 +41,10 @@ class ListController extends Controller
                 $single_task["children"] = $this->getRecursiveInboxTasks($status, $d->id, array());
                 array_push($tasks, $single_task);
             }
-            return json_encode($tasks);
+            return response()->json($tasks);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            \Log::error('unassignTaskList failed: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json([]);
         }
     }
 
@@ -137,9 +138,10 @@ class ListController extends Controller
                 }
             }
             $projects = array_merge($projects, $not_assigned_parent_projects);
-            return $projects;
+            return response()->json($projects);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            \Log::error('projectList failed: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json([]);
         }
     }
 

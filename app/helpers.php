@@ -164,7 +164,7 @@ function sendNotificationIOS($deviceToken, $text, $originalText, $parameters, $t
             'team_id' => '638BW42L7E', // The Team ID obtained from Apple developer account
             'app_bundle_id' => 'com.intellidt.iTask', // The bundle ID for app obtained from Apple developer account
             'private_key_path' =>
-                url('notification') . '/AuthKey_2Z9J2YSV4W.p8', // Path to private key
+                storage_path('app/notification/AuthKey_2Z9J2YSV4W.p8'), // Path to private key
             'private_key_secret' => null // Private key secret
         ];
         $authProvider = AuthProvider\Token::create($options);
@@ -301,7 +301,7 @@ function sendSlientNotificationIOS($deviceToken, $passParameter)
             'team_id' => '638BW42L7E', // The Team ID obtained from Apple developer account
             'app_bundle_id' => 'com.intellidt.iTask', // The bundle ID for app obtained from Apple developer account
             'private_key_path' =>
-                url('notification') . '/AuthKey_2Z9J2YSV4W.p8', // Path to private key
+                storage_path('app/notification/AuthKey_2Z9J2YSV4W.p8'), // Path to private key
             'private_key_secret' => null // Private key secret
         ];
         $authProvider = AuthProvider\Token::create($options);

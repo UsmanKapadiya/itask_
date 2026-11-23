@@ -9,13 +9,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Scripts -->
     <script>
-        let user_key = '{{ env('PUSHER_APP_KEY')  }}';
+        let user_key = @json(env('PUSHER_APP_KEY'));
     </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/fontawesome.js') }}" defer></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/react.js') }}"></script>
-    <script src="{{ asset('js/react-dom.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com"/>

@@ -71,33 +71,32 @@ class ProjectAccordion extends React.Component {
     }
 
     /*
-    * Method to render the users with checkbox
+    * Method to render the projects list
     */
     renderPosts() {
         const {projects, loading, error} = this.state;
 
-        /*
-        * Calling the renderError() method, if there is any error
-        */
         if (error) {
-            this.renderError();
+            return this.renderError();
+        }
+
+        if (!Array.isArray(projects) || projects.length === 0) {
+            return '';
         }
 
         return (
-            projects.length > 0 ? (
-                <div className={"border-top projects-container"}>
-                    <div className="accordion-container pl-4">
-                        {
-                            projects.map(project =>
-                                <Section project={project} key={project.id}
-                                         deleteProjectTask={this.props.deleteProjectTask}
-                                         updateSelection={this.props.updateSelection}
-                                         updateEditView={this.props.updateEditView}
-                                         is_completed={this.props.is_completed}/>
-                            )}
-                    </div>
+            <div className={"border-top projects-container"}>
+                <div className="accordion-container pl-4">
+                    {
+                        projects.map(project =>
+                            <Section project={project} key={project.id}
+                                     deleteProjectTask={this.props.deleteProjectTask}
+                                     updateSelection={this.props.updateSelection}
+                                     updateEditView={this.props.updateEditView}
+                                     is_completed={this.props.is_completed}/>
+                        )}
                 </div>
-            ) : ""
+            </div>
         );
     }
 
