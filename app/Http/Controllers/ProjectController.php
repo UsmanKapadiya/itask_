@@ -474,7 +474,7 @@ class ProjectController extends Controller
             $document->uploadedTime = Carbon::now();
             $document->save();
 
-            $document->formatted_name = (base64_encode($document->id) . "." . pathinfo($document->original_name, PATHINFO_EXTENSION));
+            $document->formatted_name = (base64_encode($document->id) . "." . safe_upload_extension($f));
             $document->save();
 
             $destination_path = public_path("uploads/$project_id/");

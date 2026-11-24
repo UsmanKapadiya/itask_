@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use Illuminate\Support\Facades\Broadcast;
 use Monolog\Handler\NullHandler;

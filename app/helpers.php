@@ -134,21 +134,37 @@ function generate_video_thumbnail($file, $thumbnail)
     $tags = $video->get('tags');
     if (isset($tags['rotate'])) {
         exec(
-            "/usr/bin/ffmpeg -i '" .
-            $file .
-            "' -vf 'transpose=1' -an -ss 00:00:01 -r 1 -vframes 1 -y '" .
-            $thumbnail .
-            "'"
+            "/usr/bin/ffmpeg -i " .
+            escapeshellarg($file) .
+            " -vf 'transpose=1' -an -ss 00:00:01 -r 1 -vframes 1 -y " .
+            escapeshellarg($thumbnail)
         );
     } else {
         exec(
-            "/usr/bin/ffmpeg -i '" .
-            $file .
-            "' -an -ss 00:00:01 -r 1 -vframes 1 -y '" .
-            $thumbnail .
-            "'"
+            "/usr/bin/ffmpeg -i " .
+            escapeshellarg($file) .
+            " -an -ss 00:00:01 -r 1 -vframes 1 -y " .
+            escapeshellarg($thumbnail)
         );
     }
+}
+
+/**
+ * Returns a safe extension for an uploaded file so executable/script files
+ * can never be stored under the public uploads directory.
+ */
+function safe_upload_extension($file, $imageOnly = false)
+{
+    $ext = strtolower(pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION));
+    if ($imageOnly) {
+        return in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']) ? $ext : 'jpg';
+    }
+    $blocked = ['php', 'phtml', 'phar', 'pht', 'php3', 'php4', 'php5', 'php7', 'php8', 'phps', 'inc',
+        'htaccess', 'htpasswd', 'cgi', 'pl', 'py', 'sh', 'bat', 'cmd', 'exe', 'dll', 'jsp', 'asp', 'aspx', 'html', 'htm', 'svg', 'js'];
+    if ($ext === '' || preg_match('/[^a-z0-9]/', $ext) || in_array($ext, $blocked)) {
+        return 'txt';
+    }
+    return $ext;
 }
 
 /**
@@ -404,7 +420,7 @@ function sendNotificationAndroid($deviceToken, $text, $originalText, $parameters
                 'data' => $extraNotificationData
             ];
             $headers = [
-                'Authorization: key=AIzaSyDDDXqbsr9UaK9K7OUtNR_pH-g3xuyRF7I',
+                'Authorization: key=' . env('FCM_SERVER_KEY'),
                 'Content-Type: application/json'
             ];
 
@@ -417,7 +433,6 @@ function sendNotificationAndroid($deviceToken, $text, $originalText, $parameters
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
             curl_exec($ch);
             curl_close($ch);

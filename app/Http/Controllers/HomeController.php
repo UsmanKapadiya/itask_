@@ -70,7 +70,7 @@ class HomeController extends Controller
 
             $image = $request->file("avatar");
             if (isset($image)) {
-                $image_name = $user->id . "." . $image->getClientOriginalExtension();
+                $image_name = $user->id . "." . safe_upload_extension($image, true);
                 $destination_path = public_path("uploads/avatar");
                 $image->move($destination_path, $image_name);
                 $user->avatar = $image_name;
@@ -368,7 +368,7 @@ class HomeController extends Controller
             $user->save();
             $image = $request->file("avatar");
             if (isset($image)) {
-                $image_name = $user->id . "." . $image->getClientOriginalExtension();
+                $image_name = $user->id . "." . safe_upload_extension($image, true);
                 $destination_path = public_path("uploads/avatar");
                 $image->move($destination_path, $image_name);
                 $user->avatar = $image_name;
